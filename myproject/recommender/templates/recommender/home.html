@@ -1,0 +1,193 @@
+{% extends 'recommender/base.html'%}
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+        background-color: #141414; /* Netflix dark background for the entire page */
+        color: #e0e0e0; /* Default light text for the page if not overridden */
+        margin: 0; /* Ensure no default browser margins interfere */
+        padding: 0; /* Ensure no default browser padding interferes */
+    }
+
+    /* Basic styling for the container */
+    .movie-selection-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #141414; /* Netflix dark background */
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Adjusted shadow for dark bg */
+        color: #e0e0e0; /* Light grey text for readability */
+    }
+
+    .page-title {
+        color: #ffffff; /* White for title */
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: block;
+        color: #f0f0f0; /* Lighter text for labels */
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #333; /* Darker border */
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        background-color: #222; /* Dark background for select */
+        color: #e0e0e0; /* Light text for select */
+    }
+    /* Style for select dropdown options (limited cross-browser support) */
+    .form-select option {
+        background-color: #222; /* Dark background for options */
+        color: #e0e0e0; /* Light text for options */
+    }
+
+    .submit-button {
+        background-color: #e50914; /* Netflix red */
+        color: white;
+        padding: 0.9em 2em; /* Adjusted padding, em units for scalability */
+        border: none; /* Netflix buttons typically don't have a border */
+        border-radius: 0; /* Remove rounded corners for sharp edges */
+        cursor: pointer;
+        font-size: 1rem; 
+        font-weight: bold;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        display: block; 
+        width: fit-content; 
+        margin: 1.5rem auto 0 auto; 
+        text-transform: uppercase; 
+        clip-path: polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px); /* Cuts top-left & bottom-right corners */
+        line-height: 1.3; /* Ensure text is vertically centered well */
+    }
+
+    .submit-button:hover {
+        background-color: #f40612; /* Slightly brighter Netflix red on hover */
+        transform: scale(1.03); 
+        /* No border color change needed as border is removed */
+    }
+
+    .recommendations-title {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #ffffff; /* White for this title too */
+        text-align: center;
+    }
+
+    .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .recommendation-card {
+        background-color: #333; /* Darker background for cards */
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .recommendation-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .recommendation-card p {
+        font-size: 0.9rem;
+        color: #e0e0e0; /* Lighter text for cards */
+        margin: 0;
+    }
+
+    .error-message {
+        color: #dc3545; /* Bootstrap danger red */
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .info-message {
+        color: #e0e0e0; /* Light text for info messages */
+        background-color: #333; /* Darker background for info */
+        border: 1px solid #444;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+</style>
+
+<div class="movie-selection-container">
+    <h1 class="page-title">Choose a Movie for Recommendations</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="error-message">{{ message }}</div>
+            {% elif message.tags == 'info' %}
+                <div class="info-message">{{ message }}</div>
+            {% else %}
+                <div class="info-message">{{ message }}</div> {# Default styling for other messages #}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form method="get" action="{% url 'home' %}">
+        <label for="movie_title_select" class="form-label">Select a Movie:</label>
+        <select name="movie_title" id="movie_title_select" class="form-select">
+            <option value="">-- Select a Movie --</option>
+            {% for title in movie_titles %}
+                <option value="{{ title }}" {% if title == selected_movie_title %}selected{% endif %}>{{ title }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="submit-button">Get Recommendations</button>
+    </form>
+
+    {% if selected_movie_title and recommended_movies_data %}
+        <h2 class="recommendations-title">Recommendations for {{ selected_movie_title }}:</h2>
+        <div class="recommendations-grid">
+            {% for name, poster in recommended_movies_data %}
+                <div class="recommendation-card">
+                    {% if poster and poster != '/static/recommender/default.jpg' %}
+                        <img src="{{ poster }}" alt="{{ name }}" loading="lazy">
+                    {% else %}
+                        <img src="{% static 'recommender/default.jpg' %}" alt="{{ name }}" loading="lazy">
+                    {% endif %}
+                    <p>{{ name }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% elif selected_movie_title and not recommended_movies_data %}
+        <p class="info-message" style="margin-top: 2rem;">No recommendations found for "{{ selected_movie_title }}". Try another movie!</p>
+    {% endif %}
+</div>
+
+{% comment %}
+    The previous JavaScript for dynamic search and poster preview has been removed 
+    to simplify the page. This includes:
+    - Event listeners for 'movieSearch' input (focus, input, click outside).
+    - Logic to filter 'movie-item' elements.
+    - Logic to update the selected movie preview (poster, title, year).
+    - The complex HTML structure for search input and movie list with individual items.
+{% endcomment %}
+
+{% endblock %}

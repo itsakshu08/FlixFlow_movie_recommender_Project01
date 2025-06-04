@@ -1,0 +1,194 @@
+{% extends 'recommender/base.html'%}
+{% block content %}
+<style>
+    body {
+        background-color: #141414; /* Ensure full page dark background */
+        color: #e0e0e0; /* Default light text */
+    }
+    .hero-section-custom {
+        background: url('https://r4.wallpaperflare.com/wallpaper/631/718/530/ryan-gosling-movies-blade-runner-2049-blade-runner-wallpaper-afe542fc9e266cfb956c0822c1e14434.jpg') no-repeat center center / cover; /* Blade Runner 2049 image */
+        min-height: 75vh; /* Make hero section taller */
+        display: flex; 
+        align-items: center; /* Vertically center the text content block */
+        justify-content: flex-start; /* Push the text content block to the LEFT */
+        padding: 0 2rem; /* Add some horizontal padding to the section edges */
+    }
+    .hero-text-content {
+        max-width: 45%; /* Adjust width of the text block as needed */
+        padding: 1rem;  /* Padding for the overall text content block */
+        text-align: left; /* Align text to the left, or 'right' if preferred */
+    }
+
+    .hero-text-content h1 {
+        color: #ffffff; /* Ensure white text */
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.7); /* Stronger shadow for h1 */
+    }
+
+    .hero-text-content p {
+        color: #ffffff; /* Ensure white text */
+        font-weight: 500; /* Make paragraph text semi-bold */
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6); /* Stronger shadow for p */
+        margin-top: 1rem; /* Space between h1 and p */
+        display: inline-block; /* Ensure background fits content */
+    }
+
+    .services-section-custom .card {
+        background-color: #272727; /* Darker card background */
+        border: 1px solid #444; /* Subtle border for cards */
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* For hover effect */
+    }
+
+    .services-section-custom .card:hover {
+        transform: translateY(-10px); /* Lift card on hover */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.25); /* Enhanced shadow */
+    }
+
+    .services-section-custom .card .bi { /* Targeting Bootstrap Icons */
+        transition: transform 0.3s ease-out; /* For icon hover effect */
+    }
+
+    .services-section-custom .card:hover .bi { /* Targeting Bootstrap Icons on card hover */
+        transform: scale(1.1); /* Slightly enlarge icon on hover */
+    }
+
+    /* How It Works Section Styles */
+    .how-it-works-section {
+        padding: 4rem 0;
+        background-color: #1c1c1c; /* Slightly different dark shade */
+    }
+    .how-it-works-section h2 {
+        color: #e0e0e0;
+        margin-bottom: 3rem;
+    }
+    .step-indicator-wrapper {
+        margin-bottom: 1rem;
+    }
+    .step-number-circle {
+        display: inline-block;
+        width: 40px; /* Size of the circle */
+        height: 40px;
+        line-height: 40px; /* Vertically center text */
+        border-radius: 50%; /* Make it a circle */
+        background-color: #dc3545; /* Red background */
+        color: #ffffff; /* White text */
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .step-icon {
+        font-size: 2.5rem; /* Larger icons */
+        color: #dc3545; /* Use Bootstrap danger color, or your theme red */
+        margin-bottom: 1rem;
+        transition: color 0.3s ease-out, transform 0.3s ease-out; /* For hover effect */
+    }
+    .step-card {
+        background-color: #272727; /* Same as services card for consistency */
+        border: 1px solid #444;
+        padding: 2rem;
+        border-radius: 8px;
+        height: 100%; /* Make cards in a row equal height */
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* For hover effect */
+    }
+    .step-card:hover {
+        transform: translateY(-10px); /* Lift card on hover */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.25); /* Enhanced shadow */
+    }
+    .step-card:hover .step-icon {
+        color: #ff5c5c; /* Brighter red for icon on hover */
+        transform: scale(1.1); /* Slightly enlarge icon on hover */
+    }
+    .step-card h5 {
+        color: #f8f9fa;
+        margin-bottom: 0.75rem;
+        margin-top: 0.5rem; /* Add some space if number is above icon and title below icon */
+    }
+    .step-card p {
+        color: #adb5bd;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section-custom">
+  <div class="hero-text-content">
+      <h1 class="display-3 fw-bold">Welcome to FlixFlow</h1>
+      <p class="lead fs-4">Discover your next favorite movie — intelligently recommended for you.</p>
+      <a href="{% url 'home' %}" class="btn btn-danger btn-lg mt-3">Find Your Next Movie</a>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 text-light how-it-works-section" id="how-it-works">
+    <div class="container text-center">
+        <h2 class="mb-5 fw-bold">How FlixFlow Works</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-indicator-wrapper">
+                        <span class="step-number-circle">1</span>
+                    </div>
+                    <div class="step-icon"><i class="fas fa-mouse-pointer"></i></div>
+                    <h5>Select a Movie</h5>
+                    <p>Choose a movie you've enjoyed from our extensive library.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-indicator-wrapper">
+                        <span class="step-number-circle">2</span>
+                    </div>
+                    <div class="step-icon"><i class="fas fa-cogs"></i></div>
+                    <h5>We Analyze</h5>
+                    <p>Our smart algorithm analyzes your choice to understand your taste.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-indicator-wrapper">
+                        <span class="step-number-circle">3</span>
+                    </div>
+                    <div class="step-icon"><i class="fas fa-film"></i></div>
+                    <h5>Get Recommendations</h5>
+                    <p>Receive a curated list of movies we think you'll love!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5 bg-dark text-light services-section-custom" id="services"> 
+  <div class="container text-center">
+    <h2 class="mb-5 fw-bold text-light">Our Key Features</h2> 
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm text-light"> 
+          <div class="card-body">
+            <i class="bi bi-robot fs-1 text-primary"></i>
+            <h5 class="mt-3">AI-Powered Recommendations</h5>
+            <p>Smart algorithms that learn your taste and suggest movies tailored to you.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm text-light"> 
+          <div class="card-body">
+            <i class="bi bi-search-heart fs-1 text-success"></i>
+            <h5 class="mt-3">NLP-Based Analysis</h5>
+            <p>Understands plot, cast, and genres to recommend movies similar to your interest.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm text-light"> 
+          <div class="card-body">
+            <i class="bi bi-lightning-charge fs-1 text-warning"></i>
+            <h5 class="mt-3">Fast & Lightweight</h5>
+            <p>Runs smoothly with real-time results and optimized performance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

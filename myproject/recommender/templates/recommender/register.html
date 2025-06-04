@@ -1,0 +1,134 @@
+{% extends 'recommender/base.html' %}
+{% load static %}
+
+{# Override navbar block to hide it on register page #}
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+<style>
+    .register-container {
+        min-height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('https://wallpaperaccess.com/full/2000200.jpg') no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .register-box {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 400px;
+        color: white;
+    }
+    
+    .register-title {
+        color: #e50914;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 5px;
+        color: white;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        width: 100%;
+    }
+    
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.2);
+        outline: none;
+        color: white;
+    }
+
+    .btn-register {
+        background: #e50914;
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 5px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .btn-register:hover {
+        background: #b2070f;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .login-link a {
+        color: #e50914;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: #e50914;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<div class="register-container">
+    <div class="register-box">
+        <h2 class="register-title">Create Account</h2>
+        
+        {% if messages %}
+        <div class="error-message">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password1" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password2" class="form-control" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit" class="btn-register">Sign Up</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
