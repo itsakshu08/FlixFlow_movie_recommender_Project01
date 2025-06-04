@@ -116,11 +116,11 @@ User Recommendation Display
 ---
 
 ## SCREENSHOTS:
+![Screenshot (12666)](https://github.com/user-attachments/assets/e1c9c9af-b6f0-4c6a-9d47-80a244810fed)
+![Screenshot (12668)](https://github.com/user-attachments/assets/0f5d0d4c-c5e4-49a5-835d-3b4a8358021f)
+![Screenshot (12671)](https://github.com/user-attachments/assets/3d04de71-aa91-4a98-87b1-23c6c5cf1372)
+![Screenshot (12672)](https://github.com/user-attachments/assets/d3d66124-c5a8-436e-bb19-9d681ef79518)
+![Screenshot (12674)](https://github.com/user-attachments/assets/3deaea9c-4081-4d2a-9e77-7852a9fd523e)
 
-![Screenshot (12668)](https://github.com/user-attachments/assets/0a620586-99c4-46eb-8bdb-857015093912)
 
-![Screenshot (12671)](https://github.com/user-attachments/assets/dc470289-e877-449a-ae8c-0936a9c73e8c)
 
-![Screenshot (12672)](https://github.com/user-attachments/assets/1f9d2178-7d9e-4c09-994f-be06324faf8c)
-
-![Screenshot (12674)](https://github.com/user-attachments/assets/4a1b3115-367e-4068-8904-ab7344328cd3)
